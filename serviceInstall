@@ -1,0 +1,72 @@
+安装服务
+sc create Svnservice binpath= "d:\subversion\bin\svnserve.exe --service -r E:\projectversion" displayname= "Svnservice" depend= Tcpip
+删除服务
+sc delete Svnservice
+修改配置
+sc config Svnservice binpath= "d:\subversion\bin\svnserve.exe --service -r E:\projectversion" displayname= "Svnservice" depend= Tcpip
+
+设置为自启动
+sc config Svnservice start= auto
+启动服务
+net start Svnservice
+ 
+ 
+1. sc start
+启动正在运行的服务。
+语法
+Sc [ServerName] start ServiceName [ServiceArguments]
+参数
+ServiceArguments
+指定传递给要启动的服务的服务参数。
+下面的示例显示了如何使用 sc start 命令：
+(1)  sc start tapisrv
+(2)  sc start giveio
+2. sc stop
+向服务发送 STOP 控制请求。
+语法
+Sc [ServerName] stop ServiceName
+参数：略
+备注
+并非所有服务都能够被停止。
+下面的示例显示了如何使用 sc stop 命令：
+(1)  sc stop tapisrv
+(2)  sc stop giveio
+3. sc query
+获得和显示关于指定的服务、驱动程序、服务类型或驱动程序类型的信息。
+语法
+Sc [ServerName] query [ServiceName] [type= {driver | service | all}] [type= {own | share | interact | kernel | filesys | rec | adapt}] [state= {active | inactive | all}] [bufsize= BufferSize] [ri= ResumeIndex] [group= GroupName]
+sc query 参数很多，这里不再一一介绍，详细信息可见biaud知道SC
+参数
+ServiceName
+指定由 getkeyname 操作返回的服务名。此 query 参数不与其他的 query 参数结合使用（除了 ServerName）。
+常用如：
+(1)  sc query  tapisrv
+(2)  sc  query  giveio
+ 4、sc create
+　　在注册表和“服务控制管理器”中为服务创建子项和项目。
+ 
+　　语法
+ 
+　　Sc [ServerName] create [ServiceName] [type= {own | share | kernel | filesys | rec | adapt | interacttype= {own | share}}] [start= {boot | system | auto | demand | disabled}] [error= {normal | severe | critical | ignore}] [binpath= BinaryPathName] [group= LoadOrderGroup] [tag= {yes | no}] [depend= dependencies] [obj= {AccountName | ObjectName}] [displayname= DisplayName] [password= Password]
+ 
+　　参数：各个参数的作用参见sc config 命令
+ 
+　　下面的示例显示了如何使用 sc create 命令：
+ 
+　　sc \\myserver create NewService binpath= c:\windows\system32\NewServ.exe
+ 
+　　sc create NewService binpath=(空格)c:\windows\system32\NewServ.exe type=(空格)share start=(空格)auto depend= "+TDI Netbios"
+　　sc  create ccproxy binpath= c:\windows\ccproxy\ccproxy.exe type= share start= auto
+　　5、sc delete
+　　从注册表中删除服务子项。如果服务正在运行或者另一个进程有一个该服务的打开句柄，那么此服务将标记为删除。
+　　语法
+　　Sc [ServerName] delete [ServiceName]
+　　参数：略
+　　备注
+　　使用“添加或删除程序”删除 DHCP、DNS 或任何其他内置的操作系统服务。“添加或删除程序”不仅会删除该服务的注册表子项，而且还会卸载该服务并删除其所有的快捷方式。
+　　下面的示例显示了如何使用 sc delete 命令：
+　　sc delete newserv
+       sc delete ccproxy
+ 
+ 
+本文出自 “专注HA架构集群” 博客，请务必保留此出处http://jafy00.blog.51cto.com/2594646/761118
